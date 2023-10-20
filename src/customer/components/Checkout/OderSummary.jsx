@@ -38,7 +38,7 @@ const OrderSummanry = () => {
                             </div>
                         </div>
                         <Button variant="contained" className='w-full mt-5' sx={{ px: "2.5rem", py: ".7rem", bgcolor: "#9155fd" }}>
-                            ChecKout
+                            Payment
                         </Button>
                     </div>
                 </div>

@@ -8,6 +8,9 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { navigation } from "../Navigation/navigationdata";
+import { useNavigate } from "react-router-dom";
+import { Avatar, Button } from "@mui/material";
+import { deepPurple } from "@mui/material/colors";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -16,6 +19,7 @@ function classNames(...classes) {
 export default function Navigation() {
 
   const [open, setOpen] = useState(false);
+  const navigate =useNavigate();
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openUserMenu = Boolean (anchorEl);
@@ -36,6 +40,11 @@ export default function Navigation() {
   
   const handleCloseAuthModal = () => {
     setOpenAuthModal(false);
+  };
+
+  const handleCategoryClick = (category,section,item,close)=>{
+    navigate("/${category.id}/${section.id}/${item.id}");
+    close();
   };
 
   return (
@@ -240,7 +249,7 @@ export default function Navigation() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-500">
+                            <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-500 z-50">
                               {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                               <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
 
@@ -312,15 +321,27 @@ export default function Navigation() {
               </Popover.Group>
 
               <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Sign in
-                  </a>
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Create account
-                  </a>
-                </div>
+                {/* <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"> 
+                { true ? (
+                    
+                      <Avatar 
+                      className="text-white"
+                      onClick={handleUserClick}
+                      aria-controls={open ? "basic-menu" : underfined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" :underfined}
+
+                      sx={{
+                        bgcolor:deepPurple[500],
+                        color: "white",
+                        cursor: "pointer",
+                      }}
+                      >
+                          R
+                      </Avatar>
+                  ):(
+                    
+                </div> */}
 
                 <div className="hidden lg:ml-8 lg:flex">
                   <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
@@ -344,20 +365,25 @@ export default function Navigation() {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
-                    <ShoppingBagIcon
+                  <Button className="group -m-2 flex items-center p-2"
+                  >
+                  <ShoppingBagIcon
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </a>
+                  />
+                      <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                        2
+                        </span>
+                      <span className="sr-only">items in cart, view bag</span>
+
+                  </Button>                  
                 </div>
               </div>
             </div>
           </div>
         </nav>
       </header>
+      {/* <AuthModal handleClose={handleClose} open={openAuthModal}/> */}
     </div>
   )
 }
