@@ -8,7 +8,7 @@ import { color, filters, singleFilters } from './FilterData';
 import { FormControl, FormControlLabel, FormLabel, Radio } from '@mui/material';
 import RadioGroup from '@mui/material/RadioGroup';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Search } from '@mui/icons-material';
 
 // Mảng tùy chọn sắp xếp
@@ -16,6 +16,13 @@ const sortOptions = [
   { name: 'Price: Low to High', href: '#', current: false },
   { name: 'Price: High to Low', href: '#', current: false },
 ];
+const subCategories = [
+  { name: 'Totes', href: '#' },
+  { name: 'Backpacks', href: '#' },
+  { name: 'Travel Bags', href: '#' },
+  { name: 'Hip Bags', href: '#' },
+  { name: 'Laptop Sleeves', href: '#' },
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -30,21 +37,21 @@ export default function Product() {
   const handleFilter = (value, sectionId) => {
     const searchParams = new URLSearchParams(location.search);
     let filterValue = searchParams.getAll(sectionId);
-
+  
     if (filterValue.length > 0 && filterValue[0].split(',').includes(value)) {
       filterValue = filterValue[0].split(',').filter((item) => item !== value);
-
+  
       // Xóa toàn bộ filter nếu không còn tùy chọn nào
       if (filterValue.length === 0) {
         searchParams.delete(sectionId);
       } else {
         filterValue.push(value);
       }
-
+  
       if (filterValue.length > 0) {
         searchParams.set(sectionId, filterValue.join(","));
       }
-
+  
       const query = searchParams.toString();
       navigate({ search: `?${query}` });
     }
@@ -203,13 +210,11 @@ export default function Product() {
                   </Menu.Items>
                 </Transition>
               </Menu>
-
               {/* Nút xem dạng grid */}
               <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
                 <span className="sr-only">View grid</span>
                 <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
               </button>
-
               {/* Nút mở cửa sổ lọc trên thiết bị di động */}
               <button
                 type="button"
@@ -234,179 +239,99 @@ export default function Product() {
                 <div className='flex justify-between items-center'>
                   <h1 className='text-lg opacity-50 font-bold'>Filters</h1>
                   <FilterListIcon/>
-                </div>
-                <form className="hidden lg:block">
-                  {/* Hiển thị các lựa chọn lọc dựa trên dữ liệu trong mảng 'filters' */}
-                  {filters.map((section) => (
-                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">{section.name}</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              {section.options.map((option, optionIdx) => (
-                                <div key={option.value} className="flex items-center">
-                                  <input
-                                    onChange={() => handleFilter(option.value, section.id)}
-                                    id={`filter-${section.id}-${optionIdx}`}
-                                    name={`${section.id}[]`}
-                                    defaultValue={option.value}
-                                    type="checkbox"
-                                    defaultChecked={option.checked}
-                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                  <label
-                                    htmlFor={`filter-${section.id}-${optionIdx}`}
-                                    className="ml-3 text-sm text-gray-600"
-                                  >
-                                    {option.label}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
-                  ))}
-
-                  {/* Hiển thị các lựa chọn lọc dựa trên dữ liệu trong mảng 'singleFilters' */}
-                  {singleFilters.map((section) => (
-                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <FormLabel sx={{ color: "black" }} className='text-gray-900' id="demo-radio-buttons-group-label">{section.name}</FormLabel>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              <FormControl>
-                                <RadioGroup
-                                  aria-labelledby="demo-radio-buttons-group-label"
-                                  defaultValue="female"
-                                  name="radio-buttons-group"
+              </div>   
+{/* ---------------------------------------------------------------------------------------------  */}
+              
+                  <form className="hidden lg:block">
+{/* Hiển thị các lựa chọn lọc dựa trên dữ liệu trong mảng 'filters' */}
+                {filters.map((section) => (
+                  <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                    {({ open }) => (
+                      <>
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className="font-medium text-gray-900">{section.name}</span>
+                            <span className="ml-6 flex items-center">
+                              {open ? (
+                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                              ) : (
+                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                              )}
+                            </span>
+                          </Disclosure.Button>
+                        </h3>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
+                            {section.options.map((option, optionIdx) => (
+                              <div key={option.value} className="flex items-center">
+                                <input
+                               onChange={() => handleFilter(option.value,section.id)}
+                                  id={`filter-${section.id}-${optionIdx}`}
+                                  name={`${section.id}[]`}
+                                  defaultValue={option.value}
+                                  type="checkbox"
+                                  defaultChecked={option.checked}
+                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                />
+                                <label
+                                  htmlFor={`filter-${section.id}-${optionIdx}`}
+                                  className="ml-3 text-sm text-gray-600"
                                 >
-                                  {section.options.map((option, optionIdx) => (
-                                    <div>
-                                      <FormControlLabel onChange={(e) => handleRadioFilterChange(e, section.id)} value={option.id} control={<Radio />} label={option.label} />
-                                    </div>
-                                  ))}
-                                </RadioGroup>
-                              </FormControl>
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                   
-                   </Disclosure>
-                  ))}
-                </form>
-                <form className="hidden lg:block">
-                  {/* Hiển thị các lựa chọn lọc dựa trên dữ liệu trong mảng 'filters' */}
-                  {filters.map((section) => (
-                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">{section.name}</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              {section.options.map((option, optionIdx) => (
-                                <div key={option.value} className="flex items-center">
-                                  <input
-                                    id={`filter-${section.id}-${optionIdx}`}
-                                    name={`${section.id}[]`}
-                                    defaultValue={option.value}
-                                    type="checkbox"
-                                    defaultChecked={option.checked}
-                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                  <label
-                                    htmlFor={`filter-${section.id}-${optionIdx}`}
-                                    className="ml-3 text-sm text-gray-600"
-                                  >
-                                    {option.label}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
-                  ))}
+                                  {option.label}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                        </Disclosure.Panel>
+                      </>
+                    )}
+                  </Disclosure>
+                ))}
+ {/* /* Hiển thị các lựa chọn lọc dựa trên dữ liệu trong mảng 'SINGERfilters' */} 
+                {singleFilters.map((section) => (
+                  <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                    {({ open }) => (
+                      <> 
+                        <h3 className="-my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <span className="font-medium "></span>
+                            <FormLabel sx={{color : "black"}} className='text-gray-900' id="demo-radio-buttons-group-label">{section.name}</FormLabel>
+                            <span className="ml-6 flex items-center">
+                              {open ? (
+                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                              ) : (
+                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                              )}
+                            </span>
+                          </Disclosure.Button>
+                        </h3>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
+                          <FormControl>
+                          <RadioGroup
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                defaultValue="female"
+                                name="radio-buttons-group"
+                              >
+                            {section.options.map((option, optionIdx) => (
+                
+                          <>  
+                          <FormControlLabel value={option.id} control={<Radio />} label={option.label} />
 
-                  {/* Hiển thị các lựa chọn lọc dựa trên dữ liệu trong mảng 'singleFilters' */}
-                  {singleFilters.map((section) => (
-                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <FormLabel sx={{ color: "black" }} className='text-gray-900' id="demo-radio-buttons-group-label">{section.name}</FormLabel>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              <FormControl>
-                                <RadioGroup
-                                  aria-labelledby="demo-radio-buttons-group-label"
-                                  defaultValue="female"
-                                  name="radio-buttons-group"
-                                >
-                                  {section.options.map((option, optionIdx) => (
-                                    <div>
-                                      <FormControlLabel value={option.id} control={<Radio />} label={option.label} />
-                                    </div>
-                                  ))}
-                                </RadioGroup>
-                              </FormControl>
-                            </div>
-                          </Disclosure.Panel>
+                          </>                 
+                           
+                            ))}
+                            </RadioGroup>     
+                            </FormControl>       
+                          </div>
+                        </Disclosure.Panel>
                         </>
-                      )}
-                    </Disclosure>
-                  ))}
-                </form>
-              </div>
-
+                    )}
+                  </Disclosure>
+                ))}
+              </form>
+              </div> 
+{/* ---------------------------------------------------------------------------------------------  */}
               {/* Hiển thị lưới sản phẩm */}
               <div className='lg:col-span-4 w-full'>
                 <div className='flex flex-wrap justify-center bg-white py-5'>

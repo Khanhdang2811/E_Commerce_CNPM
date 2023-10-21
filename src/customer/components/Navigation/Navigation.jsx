@@ -1,49 +1,41 @@
-import { Fragment, useEffect, useState } from "react";
+
+import React, { Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-
-import { navigation } from "../Navigation/navigationdata";
+import { Bars2Icon, MagnifyingGlassIcon, ShoppingCartIcon, ArchiveBoxIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { Avatar, Button } from "@mui/material";
+import { Avatar, Button ,Menu ,MenuItem } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
+import { navigation } from "../Navigation/navigationdata";
 
+
+// Hàm hỗ trợ thêm các class CSS tùy chọn dựa trên điều kiện
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Navigation() {
-
-  const [open, setOpen] = useState(false);
-  const navigate =useNavigate();
-  const [openAuthModal, setOpenAuthModal] = useState(false);
+   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
-  const openUserMenu = Boolean (anchorEl);
-  const jwt = localStorage.getItem("jwt");
 
+
+  // Xác định trạng thái mở của menu người dùng
+  const openUserMenu = Boolean(anchorEl);
+
+  // Xử lý sự kiện khi người dùng nhấn vào biểu tượng người dùng
   const handleUserMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
+  // Đóng menu người dùng
   const handleUserMenuClose = () => {
     setAnchorEl(null);
   };
+  // const handleOpen = () => { setOpenAuthModal(true);}
 
-  
-  const handleOpenAuthModal = () => {
-    setOpenAuthModal(true);
-  };
-  
-  const handleCloseAuthModal = () => {
-    setOpenAuthModal(false);
-  };
-
-  const handleCategoryClick = (category,section,item,close)=>{
-    navigate("/${category.id}/${section.id}/${item.id}");
+  // Xử lý sự kiện khi người dùng chọn một danh mục sản phẩm
+  const handleCategoryClick = (category, section, item, close) => {
+    navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
 
@@ -51,7 +43,7 @@ export default function Navigation() {
     <div className="bg-white pb-10">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-50 lg:hidden" onClose={setOpen}>
+        <Dialog as="div" className="relative z-50 lg:hidden" onClose={() => setOpen(false)}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -83,7 +75,7 @@ export default function Navigation() {
                   >
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Close menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    <ArchiveBoxIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
 
@@ -93,11 +85,11 @@ export default function Navigation() {
                     <Tab.List className="-mb-px flex space-x-8 px-4">
                       {navigation.categories.map((category) => (
                         <Tab
-                          key={category.name}
+                          key={category.id}
                           className={({ selected }) =>
                             classNames(
-                              selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
-                              'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
+                              selected ? "border-indigo-600 text-indigo-600" : "border-transparent text-gray-900",
+                              "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium transition-colors duration-200 ease-out"
                             )
                           }
                         >
@@ -108,11 +100,11 @@ export default function Navigation() {
                   </div>
                   <Tab.Panels as={Fragment}>
                     {navigation.categories.map((category) => (
-                      <Tab.Panel key={category.name} className="space-y-10 px-4 pb-8 pt-10">
+                      <Tab.Panel key={category.id} className="space-y-10 px-4 pb-8 pt-10">
                         <div className="grid grid-cols-2 gap-x-4">
                           {category.featured.map((item) => (
-                            <div key={item.name} className="group relative text-sm">
-                              <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+                            <div key={item.id} className="group relative text-sm">
+                              <div className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden bg-gray-100 group-hover:opacity-75">
                                 <img src={item.imageSrc} alt={item.imageAlt} className="object-cover object-center" />
                               </div>
                               <a href={item.href} className="mt-6 block font-medium text-gray-900">
@@ -126,7 +118,7 @@ export default function Navigation() {
                           ))}
                         </div>
                         {category.sections.map((section) => (
-                          <div key={section.name}>
+                          <div key={section.id}>
                             <p id={`${category.id}-${section.id}-heading-mobile`} className="font-medium text-gray-900">
                               {section.name}
                             </p>
@@ -136,7 +128,7 @@ export default function Navigation() {
                               className="mt-6 flex flex-col space-y-6"
                             >
                               {section.items.map((item) => (
-                                <li key={item.name} className="flow-root">
+                                <li key={item.id} className="flow-root">
                                   <a href={item.href} className="-m-2 block p-2 text-gray-500">
                                     {item.name}
                                   </a>
@@ -205,7 +197,7 @@ export default function Navigation() {
               >
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open menu</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                <Bars2Icon className="h-6 w-6" aria-hidden="true" />
               </button>
 
               {/* Logo */}
@@ -224,16 +216,16 @@ export default function Navigation() {
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
-                    <Popover key={category.name} className="flex">
+                    <Popover key={category.id} className="flex">
                       {({ open }) => (
                         <>
                           <div className="relative flex">
                             <Popover.Button
                               className={classNames(
                                 open
-                                  ? 'border-indigo-600 text-indigo-600'
-                                  : 'border-transparent text-gray-700 hover:text-gray-800',
-                                'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
+                                  ? "border-indigo-600 text-indigo-600"
+                                  : "border-transparent text-gray-700 hover:text-gray-800",
+                                "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
                               )}
                             >
                               {category.name}
@@ -258,7 +250,7 @@ export default function Navigation() {
                                   <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                     <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                       {category.featured.map((item) => (
-                                        <div key={item.name} className="group relative text-base sm:text-sm">
+                                        <div key={item.id} className="group relative text-base sm:text-sm">
                                           <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                             <img
                                               src={item.imageSrc}
@@ -278,7 +270,7 @@ export default function Navigation() {
                                     </div>
                                     <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
                                       {category.sections.map((section) => (
-                                        <div key={section.name}>
+                                        <div key={section.id}>
                                           <p id={`${section.name}-heading`} className="font-medium text-gray-900">
                                             {section.name}
                                           </p>
@@ -288,7 +280,7 @@ export default function Navigation() {
                                             className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                           >
                                             {section.items.map((item) => (
-                                              <li key={item.name} className="flex">
+                                              <li key={item.id} className="flex">
                                                 <a href={item.href} className="hover:text-gray-800">
                                                   {item.name}
                                                 </a>
@@ -321,69 +313,93 @@ export default function Navigation() {
               </Popover.Group>
 
               <div className="ml-auto flex items-center">
-                {/* <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"> 
-                { true ? (
-                    
-                      <Avatar 
+                {true ? (
+                    <div>
+                    <Avatar
                       className="text-white"
-                      onClick={handleUserClick}
-                      aria-controls={open ? "basic-menu" : underfined}
+                      onClick={handleUserMenuClick}
+                      aria-controls={openUserMenu ? "basic-menu" : undefined}
                       aria-haspopup="true"
-                      aria-expanded={open ? "true" :underfined}
-
+                      aria-expanded={openUserMenu ? true : undefined}
                       sx={{
-                        bgcolor:deepPurple[500],
+                        bgcolor: deepPurple[500],
                         color: "white",
                         cursor: "pointer",
                       }}
-                      >
-                          R
-                      </Avatar>
-                  ):(
-                    
-                </div> */}
+                    >
+                      R
+                      {/* {auth.user?.firstname[0].toUpperCase()} */}
+                      {/* Avatar */}
+                    </Avatar>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={openUserMenu}
+                      onClose={handleUserMenuClose}
+                      MenulistProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      <MenuItem onClick={handleUserMenuClose}>
+                        Profile
+                      </MenuItem>
+                      <MenuItem >
+                        My Orders
+                      </MenuItem>
+                      <MenuItem >
+                        Logout
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                ) : (                  /* Nếu người dùng chưa đăng nhập */
+                      <Button
+                        // onclink={handleOpen}
+                         className="text-sm font-medium text-gray-700 hover: text-gray-800"
+                        >
+                        Signin
+                      </Button>
+                )}
+              </div>
 
-                <div className="hidden lg:ml-8 lg:flex">
-                  <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
-                    <img
-                      src="https://tailwindui.com/img/flags/flag-vietname.svg"
-                      alt=""
-                      className="block h-auto w-5 flex-shrink-0"
-                    />
-                    <span className="ml-3 block text-sm font-medium">CAD</span>
-                    <span className="sr-only">, change currency</span>
-                  </a>
-                </div>
-
-                {/* Search */}
-                <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                  </a>
-                </div>
-
-                {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
-                  <Button className="group -m-2 flex items-center p-2"
-                  >
-                  <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
+              <div className="hidden lg:ml-8 lg:flex">
+                <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
+                  <img
+                    src="https://tailwindui.com/img/flags/flag-vietname.svg"
+                    alt=""
+                    className="block h-auto w-5 flex-shrink-0"
                   />
-                      <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                        2
-                        </span>
-                      <span className="sr-only">items in cart, view bag</span>
+                  <span className="ml-3 block text-sm font-medium">CAD</span>
+                  <span className="sr-only">, change currency</span>
+                </a>
+              </div>
 
-                  </Button>                  
-                </div>
+              {/* Search */}
+              <div className="flex lg:ml-6">
+                <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                  <span className="sr-only">Search</span>
+                  <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+                </a>
+              </div>
+
+              {/* Cart */}
+              <div className="ml-4 flow-root lg:ml-6">
+                <Button className="group -m-2 flex items-center p-2">
+                  <ShoppingCartIcon
+                    className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                    2
+                  </span>
+                  <span className="sr-only">items in cart, view bag</span>
+                </Button>
               </div>
             </div>
           </div>
         </nav>
       </header>
-      {/* <AuthModal handleClose={handleClose} open={openAuthModal}/> */}
     </div>
-  )
+  );
 }
+
+
