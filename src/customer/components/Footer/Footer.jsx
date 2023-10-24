@@ -17,19 +17,19 @@ const Footer = () => {
           </Typography>
           <div className="flex flex-col">
             {/* Các nút liên quan đến thông tin về công ty */}
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6,h6">
               About
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Blog
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Press
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Jobs
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Partners
             </Button>
           </div>
@@ -40,19 +40,19 @@ const Footer = () => {
           </Typography>
           <div className="flex flex-col">
             {/* Các nút liên quan đến thông tin về giải pháp */}
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Marketing
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Analytics
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Commerce
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Insights
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Support
             </Button>
           </div>
@@ -63,10 +63,10 @@ const Footer = () => {
           </Typography>
           <div className="flex flex-col">
             {/* Các nút liên quan đến tài liệu hướng dẫn */}
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Guides
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               API Status
             </Button>
           </div>
@@ -77,13 +77,13 @@ const Footer = () => {
           </Typography>
           <div className="flex flex-col">
             {/* Các nút liên quan đến thông tin pháp lý */}
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Claim
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Privacy
             </Button>
-            <Button className="pb-5" variant="contained">
+            <Button className="pb-5" variant="contained,h6">
               Terms
             </Button>
           </div>
