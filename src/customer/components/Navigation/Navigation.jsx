@@ -1,12 +1,14 @@
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import { Bars2Icon, MagnifyingGlassIcon, ShoppingCartIcon, ArchiveBoxIcon } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
-import { Avatar, Button ,Menu ,MenuItem } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import { navigation } from "../Navigation/navigationdata";
-
+import { navigation } from "./navigationdata";
+import AuthModal from "../../Auth/AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, logout } from "../../../State/Auth/Action";
 
 // Hàm hỗ trợ thêm các class CSS tùy chọn dựa trên điều kiện
 function classNames(...classes) {
@@ -14,31 +16,56 @@ function classNames(...classes) {
 }
 
 export default function Navigation() {
-   const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [openAuthModal, setOpenAuthModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
 
   // Xác định trạng thái mở của menu người dùng
   const openUserMenu = Boolean(anchorEl);
-
+  const jwt = localStorage.getItem("jwt");
+  const { auth } = useSelector(store => store)
+  const dispatch=useDispatch();  
+  const location=useLocation();
   // Xử lý sự kiện khi người dùng nhấn vào biểu tượng người dùng
   const handleUserMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   // Đóng menu người dùng
-  const handleUserMenuClose = () => {
+  const handleUserMenuClose = (event) => {
     setAnchorEl(null);
   };
-  // const handleOpen = () => { setOpenAuthModal(true);}
-
+  const handleOpen = () => { setOpenAuthModal(true); };
+  const handleClose = () => { 
+    setOpenAuthModal(false); 
+    
+  };
   // Xử lý sự kiện khi người dùng chọn một danh mục sản phẩm
   const handleCategoryClick = (category, section, item, close) => {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
 
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(jwt))
+    }
+  }, [jwt, auth.jwt])
+
+  useEffect(() => {
+      if(auth.user){
+        handleClose()
+      }
+      if(location.pathname==="/login" || location.pathname==="/register"){
+        navigate(-1)
+      }
+  }, [auth.user])
+
+  const handleLogout=()=>{
+    dispatch(logout())
+    handleUserMenuClose()
+  }
   return (
     <div className="bg-white pb-10">
       {/* Mobile menu */}
@@ -313,8 +340,8 @@ export default function Navigation() {
               </Popover.Group>
 
               <div className="ml-auto flex items-center">
-                {true ? (
-                    <div>
+                {auth.user?.firstName ? (
+                  <div>
                     <Avatar
                       className="text-white"
                       onClick={handleUserMenuClick}
@@ -327,8 +354,8 @@ export default function Navigation() {
                         cursor: "pointer",
                       }}
                     >
-                      R
-                      {/* {auth.user?.firstname[0].toUpperCase()} */}
+                      {auth.user?.firstName[0].toUpperCase()}
+                     
                       {/* Avatar */}
                     </Avatar>
                     <Menu
@@ -346,18 +373,18 @@ export default function Navigation() {
                       <MenuItem >
                         My Orders
                       </MenuItem>
-                      <MenuItem >
+                      <MenuItem onClick={handleLogout}>
                         Logout
                       </MenuItem>
                     </Menu>
                   </div>
                 ) : (                  /* Nếu người dùng chưa đăng nhập */
-                      <Button
-                        // onclink={handleOpen}
-                         className="text-sm font-medium text-gray-700 hover: text-gray-800"
-                        >
-                        Signin
-                      </Button>
+                  <Button
+                    onclink={handleOpen}
+                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                  >
+                    Signin
+                  </Button>
                 )}
               </div>
 
@@ -398,6 +425,7 @@ export default function Navigation() {
           </div>
         </nav>
       </header>
+      <AuthModal handleClose={handleClose} open={openAuthModal} />
     </div>
   );
 }
