@@ -374,7 +374,7 @@ export default function Navigation() {
                         My Orders
                       </MenuItem>
                       <MenuItem onClick={handleLogout}>
-                        Logout
+                        Log out
                       </MenuItem>
                     </Menu>
                   </div>
@@ -383,7 +383,7 @@ export default function Navigation() {
                     onclink={handleOpen}
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
                   >
-                    Signin
+                    Sign in
                   </Button>
                 )}
               </div>
