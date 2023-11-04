@@ -3,6 +3,8 @@ import React from 'react'
 import RegisterForm from './RegisterForm';
 import { useLocation } from 'react-router-dom';
 import LoginForm from './LoginForm';
+import {Button} from "@mui/material";
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -19,12 +21,16 @@ const AuthModal = ({handleClose,open}) => {
     const location=useLocation();
     return (
         <div><Modal
-            open={true}
+            open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
+            
+            <div className="flex justify-end">
+            <Button onClick={handleClose}>Close</Button> 
+            </div>          
                {location.pathname === "/login" ? <LoginForm/> : <RegisterForm/>}
             </Box>
         </Modal></div>

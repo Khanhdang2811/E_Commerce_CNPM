@@ -380,7 +380,8 @@ export default function Navigation() {
                   </div>
                 ) : (                  /* Nếu người dùng chưa đăng nhập */
                   <Button
-                    onclink={handleOpen}
+                    type="button"
+                    onClick={handleOpen}
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
                   >
                     Sign in

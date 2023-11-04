@@ -5,7 +5,7 @@ import OrderTraker from '../Order/OrderTraker';
 import { getOrderById } from '../../../State/Order/Action';
 import { updatePayment } from '../../../State/Payment/Action';
 import { AlertTitle, Alert } from '@mui/material';
-import { Grid } from '@mui/material';
+import  {Grid}  from '@mui/material';
 import AddressCard from '../AddressCard/AddressCard';
 
 
@@ -55,10 +55,10 @@ export const PaymentSuccess = () => {
 
             <Grid container className='space-y-5 py-5 pt-20'>
 
-                {order.order?.orderItems.map((item) => <Gird container item className='shadow-x1 round-md p-5'
+                {order.order?.orderItems.map((item) => <Grid container item className='shadow-x1 round-md p-5'
                     sx={{ alignItems: 'center', justifyContent: 'space-between' }}
                 >
-                    <Gird item xs={6}>
+                    <Grid item xs={6}>
 
                         <div className='flex items-center'>
                             <image className='w-[5rem] h-[5rem] object-cover object-top' src="{item.prodcut.imageUrl}" alt="" />
@@ -76,13 +76,13 @@ export const PaymentSuccess = () => {
 
                         </div>
 
-                    </Gird>
+                    </Grid>
                     <Grid item>
                         <AddressCard address={order.order?.shippingAddress} />
                     </Grid>
 
 
-                </Gird>)}
+                </Grid>)}
 
             </Grid>
 
